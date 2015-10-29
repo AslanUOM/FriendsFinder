@@ -1,0 +1,117 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.aslan.friendsfinder.HomeFragment">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="25dp"
+        android:layout_weight="1"
+        android:src="@drawable/img_avatar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="GOBINATH"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_column="0"
+                    android:text="Telephone:"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/txtTelephone"
+                    android:layout_column="1"
+                    android:layout_marginLeft="20dp"
+                    android:text="0770780210"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>
+
+            <TableRow android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_column="0"
+                    android:text="Home:"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/txtHomeLocation"
+                    android:layout_column="1"
+                    android:layout_marginLeft="20dp"
+                    android:text="Jaffna"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>
+
+            <TableRow android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_column="0"
+                    android:text="Work:"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/txtWorkLocation"
+                    android:layout_column="1"
+                    android:layout_marginLeft="20dp"
+                    android:text="Moratuwa"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>
+
+            <TableRow android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_column="0"
+                    android:text="Current Location:"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/txtCurrentLocation"
+                    android:layout_column="1"
+                    android:layout_marginLeft="20dp"
+                    android:text="Colombo"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>
+
+            <TableRow android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_column="0"
+                    android:text="No of Friends:"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/txtNoOfFriends"
+                    android:layout_column="1"
+                    android:layout_marginLeft="20dp"
+                    android:text="25"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+</LinearLayout>
