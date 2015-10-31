@@ -1,14 +1,12 @@
 package com.aslan.friendsfinder;
 
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.List;
+import com.aslan.friendsfinder.Utility.PluginChecker;
 
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
@@ -19,20 +17,9 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         // Show the splash screen
-
-        String pluginPKG = "com.aslan.contra";
-        boolean isPluginInstalled = false;
-        PackageManager packageManager = getPackageManager();
-//                try {
-        List<ApplicationInfo> infos = packageManager.getInstalledApplications(0);
-        for (ApplicationInfo info : infos) {
-            if (info.packageName == pluginPKG) {
-                isPluginInstalled = true;
-                break;
-            }
-        }
-//                    ApplicationInfo info = packageManager.getApplicationInfo("com.aslan.contra", 0);
+//        ApplicationInfo info = packageManager.getApplicationInfo("com.aslan.contra", 0);
         //-- application exists
+        boolean isPluginInstalled = PluginChecker.isPluginInstalled(this, TAG);
         if (isPluginInstalled) {
             Class target = MainActivity.class;
             Intent intent = new Intent(getApplicationContext(), target);
@@ -49,6 +36,7 @@ public class SplashActivity extends AppCompatActivity {
             intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.aslan.contra"));
 //            intent.setData(Uri.parse("market://details?id=com.aslan.contra"));
             startActivity(intent);
+            this.finish();
         }
 //                } catch (PackageManager.NameNotFoundException e) {
 //                    //-- application doesn't exist
