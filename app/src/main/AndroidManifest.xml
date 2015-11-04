@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aslan.friendsfinder" >
 
-    <!--<uses-library android:name="com.aslan.contra" android:required="true" />-->
-
+    <!-- <uses-library android:name="com.aslan.contra" android:required="true" /> -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -31,6 +30,19 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+
+        <service
+            android:name=".services.RemoteService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":exported">
+            <intent-filter>
+                <action android:name="aslan.app.RemoteService" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".MsgPassingActivity">
         </activity>
     </application>
 
