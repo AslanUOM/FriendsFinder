@@ -9,8 +9,8 @@ import android.os.Messenger;
 import android.widget.Toast;
 
 public class RemoteService extends Service {
-    static final int SAY_BYE = 0;
-    static final int SAY_SEE_YOU = 1;
+    private static final int SAY_BYE = 0;
+    private static final int SAY_SEE_YOU = 1;
     Messenger mMessenger = new Messenger(new RemoteServiceHandler());
 
     @Override

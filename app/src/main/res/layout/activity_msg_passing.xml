@@ -12,10 +12,9 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Start Location Tracking"
         android:layout_above="@+id/button2"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
-        android:text="Say Hi" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/button2"
@@ -23,5 +22,5 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Say Hello" />
+        android:text="Stop Location Tracking" />
 </RelativeLayout>

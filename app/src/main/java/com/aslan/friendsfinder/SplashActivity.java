@@ -21,7 +21,8 @@ public class SplashActivity extends AppCompatActivity {
         //-- application exists
         boolean isPluginInstalled = PluginChecker.isPluginInstalled(this, TAG);
         if (isPluginInstalled) {
-            Class target = MainActivity.class;
+//            Class target = MainActivity.class;
+            Class target = MsgPassingActivity.class;
             Intent intent = new Intent(getApplicationContext(), target);
             // Wait for a while
             try {
@@ -36,8 +37,8 @@ public class SplashActivity extends AppCompatActivity {
             intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.aslan.contra"));
 //            intent.setData(Uri.parse("market://details?id=com.aslan.contra"));
             startActivity(intent);
-            this.finish();
         }
+        SplashActivity.this.finish();
 //                } catch (PackageManager.NameNotFoundException e) {
 //                    //-- application doesn't exist
 //                    Log.e(TAG, "ConTra plugin missing", e);

@@ -12,9 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.aslan.friendsfinder.Utility.Msg;
+
 public class MsgPassingActivity extends AppCompatActivity {
-    static final int SAY_HI = 0;
-    static final int SAY_HELLO = 1;
     boolean mIsBinded;
     Messenger mMessenger;
     ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -47,7 +47,7 @@ public class MsgPassingActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Message msg = Message.obtain(null, SAY_HI, 0, 0);
+                Message msg = Message.obtain(null, Msg.START_LOCATION_TRACKING, 0, 0);
                 try {
                     mMessenger.send(msg);
                 } catch (RemoteException e) {
@@ -62,7 +62,7 @@ public class MsgPassingActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Message msg = Message.obtain(null, SAY_HELLO, 0, 0);
+                Message msg = Message.obtain(null, Msg.STOP_LOCATION_TRACKING, 0, 0);
                 try {
                     mMessenger.send(msg);
                 } catch (RemoteException e) {
