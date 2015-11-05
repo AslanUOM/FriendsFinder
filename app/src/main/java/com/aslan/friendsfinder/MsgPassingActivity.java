@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.aslan.friendsfinder.Utility.Msg;
+import com.aslan.friendsfinder.Utility.Constants;
 
 public class MsgPassingActivity extends AppCompatActivity {
     boolean mIsBinded;
@@ -47,7 +47,7 @@ public class MsgPassingActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Message msg = Message.obtain(null, Msg.START_LOCATION_TRACKING, 0, 0);
+                Message msg = Message.obtain(null, Constants.MessagePassingCommands.START_LOCATION_TRACKING, 0, 0);
                 try {
                     mMessenger.send(msg);
                 } catch (RemoteException e) {
@@ -62,7 +62,22 @@ public class MsgPassingActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Message msg = Message.obtain(null, Msg.STOP_LOCATION_TRACKING, 0, 0);
+                Message msg = Message.obtain(null, Constants.MessagePassingCommands.STOP_LOCATION_TRACKING, 0, 0);
+                try {
+                    mMessenger.send(msg);
+                } catch (RemoteException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        Button mButton3 = (Button) findViewById(R.id.button3);
+        mButton3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                Message msg = Message.obtain(null, Constants.MessagePassingCommands.GET_ALL_CONTACTS, 0, 0);
                 try {
                     mMessenger.send(msg);
                 } catch (RemoteException e) {
