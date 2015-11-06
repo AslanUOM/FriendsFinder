@@ -46,12 +46,10 @@ public class MsgPassingActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Message msg = Message.obtain(null, Constants.MessagePassingCommands.START_LOCATION_TRACKING, 0, 0);
                 try {
                     mMessenger.send(msg);
                 } catch (RemoteException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -61,12 +59,10 @@ public class MsgPassingActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Message msg = Message.obtain(null, Constants.MessagePassingCommands.STOP_LOCATION_TRACKING, 0, 0);
                 try {
                     mMessenger.send(msg);
                 } catch (RemoteException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -76,12 +72,23 @@ public class MsgPassingActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Message msg = Message.obtain(null, Constants.MessagePassingCommands.GET_ALL_CONTACTS, 0, 0);
                 try {
                     mMessenger.send(msg);
                 } catch (RemoteException e) {
-                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        Button mButton4 = (Button) findViewById(R.id.button4);
+        mButton4.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Message msg = Message.obtain(null, Constants.MessagePassingCommands.EXPORT_LOCATION_DATA_TO_SD_CARD, 0, 0);
+                try {
+                    mMessenger.send(msg);
+                } catch (RemoteException e) {
                     e.printStackTrace();
                 }
             }
