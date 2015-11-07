@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.aslan.friendsfinder.Utility.PluginChecker;
+import com.aslan.friendsfinder.utility.PluginChecker;
 
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
@@ -21,8 +21,8 @@ public class SplashActivity extends AppCompatActivity {
         //-- application exists
         boolean isPluginInstalled = PluginChecker.isPluginInstalled(this, TAG);
         if (isPluginInstalled) {
-//            Class target = MainActivity.class;
-            Class target = MsgPassingActivity.class;
+            Class target = MainActivity.class;
+//            Class target = MsgPassingActivity.class;
             Intent intent = new Intent(getApplicationContext(), target);
             // Wait for a while
             try {

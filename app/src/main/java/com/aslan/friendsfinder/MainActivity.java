@@ -10,10 +10,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.aslan.friendsfinder.model.User;
+import com.aslan.friendsfinder.utility.Utility;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener {
@@ -63,26 +63,28 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_friends) {
             // Show the list of nearby friends
-            User[] friends = new User[3];
-            friends[0] = new User();
-            friends[0].setId("A001");
-            friends[0].setName("Vishnu");
-            friends[0].setPhoneNumber("0770780210");
-            friends[0].setStatus("Free");
-
-            friends[1] = new User();
-            friends[1].setId("A002");
-            friends[1].setName("Annet");
-            friends[1].setPhoneNumber("0770780210");
-            friends[1].setStatus("Busy");
-
-            friends[2] = new User();
-            friends[2].setId("A003");
-            friends[2].setName("Raveen");
-            friends[2].setPhoneNumber("0770780220");
-            friends[2].setStatus("Free");
-
-            fragment = FriendsFragment.newInstance(friends);
+            String nearbyFriends = Utility.getNearbyFriends(getApplicationContext());
+            if (nearbyFriends != null && nearbyFriends.length() > 2) {
+                nearbyFriends = nearbyFriends.substring(1, nearbyFriends.length() - 1);
+                String[] list = nearbyFriends.split(",");
+                User[] friends = new User[list.length];
+                for (int i = 0; i < friends.length; i++) {
+                    friends[i] = new User();
+                    friends[i].setId("A00" + i);
+                    friends[i].setName(list[i].substring(1, list[i].length() - 1));
+                    friends[i].setPhoneNumber("Number");
+                    friends[i].setStatus("Free");
+                }
+                fragment = FriendsFragment.newInstance(friends);
+            } else {
+                User[] friends = new User[1];
+                friends[0] = new User();
+                friends[0].setId("A000");
+                friends[0].setName("Only you");
+                friends[0].setPhoneNumber("0777123456");
+                friends[0].setStatus("Free");
+                fragment = FriendsFragment.newInstance(friends);
+            }
         } else if (id == R.id.nav_profile) {
             // Show the profile
             fragment = HomeFragment.newInstance(null, null);

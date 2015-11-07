@@ -1,10 +1,10 @@
-package com.aslan.friendsfinder.Utility;
+package com.aslan.friendsfinder.utility;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import android.content.ContextWrapper;
 
 import java.util.List;
 

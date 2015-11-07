@@ -1,4 +1,4 @@
-package com.aslan.friendsfinder.Utility;
+package com.aslan.friendsfinder.utility;
 
 import android.content.ComponentName;
 import android.content.Context;

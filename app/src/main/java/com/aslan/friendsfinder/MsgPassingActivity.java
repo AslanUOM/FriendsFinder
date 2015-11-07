@@ -12,8 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.aslan.friendsfinder.Utility.Constants;
-import com.aslan.friendsfinder.Utility.IntentCreator;
+import com.aslan.friendsfinder.utility.Constants;
+import com.aslan.friendsfinder.utility.IntentCreator;
 
 public class MsgPassingActivity extends AppCompatActivity {
     boolean mIsBinded;

@@ -2,15 +2,17 @@ package com.aslan.friendsfinder.services;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.widget.Toast;
 
+import com.aslan.friendsfinder.utility.Constants;
+import com.aslan.friendsfinder.utility.Utility;
+
 public class RemoteService extends Service {
-    private static final int SAY_BYE = 0;
-    private static final int SAY_SEE_YOU = 1;
     Messenger mMessenger = new Messenger(new RemoteServiceHandler());
 
     @Override
@@ -26,11 +28,10 @@ public class RemoteService extends Service {
             // TODO Auto-generated method stub
             super.handleMessage(msg);
             switch (msg.what) {
-                case SAY_BYE:
-                    Toast.makeText(getApplicationContext(), "Bye from PLUGIN @ APP", Toast.LENGTH_LONG).show();
-                    break;
-                case SAY_SEE_YOU:
-                    Toast.makeText(getApplicationContext(), "See you from PLUGIN @ APP", Toast.LENGTH_LONG).show();
+                case Constants.MessagePassingCommands.NEARBY_FRIENDS_RECEIVED:
+                    Bundle bundle = (Bundle) msg.obj;
+                    Utility.saveNearbyFriends(getApplicationContext(), bundle.getString(Constants.NEARBY_FRIENDS));
+                    Toast.makeText(getApplicationContext(), bundle.getString(Constants.NEARBY_FRIENDS) + " is nearby now", Toast.LENGTH_LONG).show();
                     break;
             }
         }
