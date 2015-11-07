@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.aslan.friendsfinder.Utility.Constants;
+import com.aslan.friendsfinder.Utility.IntentCreator;
 
 public class MsgPassingActivity extends AppCompatActivity {
     boolean mIsBinded;
@@ -40,6 +41,7 @@ public class MsgPassingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_msg_passing);
         Intent mIntent = new Intent();
         mIntent.setAction("aslan.plugin.RemoteService");
+        mIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), mIntent); //solution for failure above android 5.0
         bindService(mIntent, mServiceConnection, BIND_AUTO_CREATE);
         Button mButton = (Button) findViewById(R.id.button1);
         mButton.setOnClickListener(new View.OnClickListener() {
