@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().replace(R.id.content, fragment).commit();
         // Highlight the menu
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(1).setChecked(true); //load friends view
+//        navigationView.setCheckedItem(R.id.nav_friends);
+        onNavigationItemSelected(navigationView.getMenu().getItem(1));
     }
 
     @Override
