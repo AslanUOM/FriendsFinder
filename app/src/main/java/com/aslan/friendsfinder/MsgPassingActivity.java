@@ -40,7 +40,7 @@ public class MsgPassingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_msg_passing);
         Intent mIntent = new Intent();
-        mIntent.setAction("aslan.plugin.RemoteService");
+        mIntent.setAction(Constants.CONTRA_PLUGIN_ACTION_NAME);
         mIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), mIntent); //solution for failure above android 5.0
         bindService(mIntent, mServiceConnection, BIND_AUTO_CREATE);
         Button mButton = (Button) findViewById(R.id.button1);

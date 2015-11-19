@@ -17,7 +17,7 @@ public class Utility {
     public static String getNearbyFriends(Context ctx) {
         if (nearbyFriends == null) {
             SharedPreferences preferences = getSharedPreference(ctx);
-            nearbyFriends = preferences.getString(Constants.NEARBY_FRIENDS, null);
+            nearbyFriends = preferences.getString(Constants.Type.NEARBY_FRIENDS, null);
         }
         return nearbyFriends;
     }
@@ -25,6 +25,6 @@ public class Utility {
     public static void saveNearbyFriends(Context ctx, String nearby) {
         SharedPreferences preferences = getSharedPreference(ctx);
         nearbyFriends = nearby;
-        preferences.edit().putString(Constants.NEARBY_FRIENDS, nearbyFriends).commit();
+        preferences.edit().putString(Constants.Type.NEARBY_FRIENDS, nearbyFriends).commit();
     }
 }

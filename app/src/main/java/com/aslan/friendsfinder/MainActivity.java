@@ -2,6 +2,7 @@ package com.aslan.friendsfinder;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.aslan.friendsfinder.model.User;
+import com.aslan.friendsfinder.services.RemoteMessagingService;
+import com.aslan.friendsfinder.utility.Constants;
 import com.aslan.friendsfinder.utility.Utility;
 
 public class MainActivity extends AppCompatActivity
@@ -39,6 +42,13 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = HomeFragment.newInstance(null, null);
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().replace(R.id.content, fragment).commit();
+
+        Intent messagingService = new Intent(this, RemoteMessagingService.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_TYPE, Constants.Type.NEARBY_FRIENDS);
+        messagingService.putExtras(bundle);
+        startService(messagingService);
+
         // Highlight the menu
         navigationView.getMenu().getItem(1).setChecked(true); //load friends view
 //        navigationView.setCheckedItem(R.id.nav_friends);
