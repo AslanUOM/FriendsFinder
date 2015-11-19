@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
             String nearbyFriends = Utility.getNearbyFriends(getApplicationContext());
             if (nearbyFriends != null && nearbyFriends.length() > 2) {
                 nearbyFriends = nearbyFriends.substring(1, nearbyFriends.length() - 1);
-                // If not working change the regex to ",\\s?"
+                // TODO If not working change the regex to ",\\s?"
                 String[] list = nearbyFriends.split(", ?");
                 User[] friends = new User[list.length];
                 for (int i = 0; i < friends.length; i++) {
