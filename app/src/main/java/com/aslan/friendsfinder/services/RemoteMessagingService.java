@@ -13,11 +13,12 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.aslan.friendsfinder.OnMessagingServiceConnetcedListenner;
 import com.aslan.friendsfinder.utility.Constants;
 import com.aslan.friendsfinder.utility.IntentCreator;
 import com.aslan.friendsfinder.utility.Utility;
 
-public class RemoteMessagingService extends Service {
+public class RemoteMessagingService extends Service implements OnMessagingServiceConnetcedListenner {
     private Messenger receiver;
     private Messenger sender;
     private boolean senderIsBinded;
@@ -29,6 +30,7 @@ public class RemoteMessagingService extends Service {
             Log.d("RemoteService", service.toString());
             sender = new Messenger(service);
             senderIsBinded = true;
+            RemoteMessagingService.this.onServiceConnected();
         }
 
         @Override
@@ -49,10 +51,10 @@ public class RemoteMessagingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Intent mIntent = new Intent();
-        mIntent.setAction(Constants.CONTRA_PLUGIN_ACTION_NAME); //TODO change the actual action name logical
-        mIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), mIntent); //solution for failure above android 5.0
-        bindService(mIntent, messengerServiceConnection, BIND_AUTO_CREATE);
+//        Intent mIntent = new Intent();
+//        mIntent.setAction(Constants.CONTRA_PLUGIN_ACTION_NAME); //TODO change the actual action name logical
+//        mIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), mIntent); //solution for failure above android 5.0
+//        bindService(mIntent, messengerServiceConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -70,13 +72,16 @@ public class RemoteMessagingService extends Service {
     }
 
     public void getNearbyFriends() {
-//        Intent mIntent = new Intent();
-//        mIntent.setAction(Constants.CONTRA_PLUGIN_ACTION_NAME); //TODO change the actual action name logical
-//        mIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), mIntent); //solution for failure above android 5.0
-//        bindService(mIntent, messengerServiceConnection, BIND_AUTO_CREATE);
+        Intent mIntent = new Intent();
+        mIntent.setAction(Constants.CONTRA_PLUGIN_ACTION_NAME); //TODO change the actual action name logical
+        mIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), mIntent); //solution for failure above android 5.0
+        bindService(mIntent, messengerServiceConnection, BIND_AUTO_CREATE);
+    }
 
+    @Override
+    public void onServiceConnected() {
         Message msg = Message.obtain(null, Constants.MessagePassingCommands.GET_NEARBY_FRIENDS, 0, 0);
-        msg.replyTo = receiver;
+        msg.replyTo = new Messenger(new IncomingMessageHandler());
         try {
             if (senderIsBinded) {
                 sender.send(msg);
@@ -100,7 +105,7 @@ public class RemoteMessagingService extends Service {
             super.handleMessage(msg);
             switch (msg.what) {
                 case Constants.MessagePassingCommands.NEARBY_FRIENDS_RECEIVED:
-                    Bundle bundle = (Bundle) msg.obj;
+                    Bundle bundle = msg.getData();
                     Utility.saveNearbyFriends(getApplicationContext(), bundle.getString(Constants.Type.NEARBY_FRIENDS));
                     Toast.makeText(getApplicationContext(), bundle.getString(Constants.Type.NEARBY_FRIENDS) + " is nearby now", Toast.LENGTH_LONG).show();
                     break;

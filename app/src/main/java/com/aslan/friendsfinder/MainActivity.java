@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.aslan.friendsfinder.model.User;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
         bundle.putString(Constants.BUNDLE_TYPE, Constants.Type.NEARBY_FRIENDS);
         messagingService.putExtras(bundle);
+        Log.d("Main", messagingService.toString());
+        Log.d("Main", bundle.toString());
         startService(messagingService);
 
         // Highlight the menu
