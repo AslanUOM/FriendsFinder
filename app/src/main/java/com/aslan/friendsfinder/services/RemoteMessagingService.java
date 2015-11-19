@@ -13,37 +13,17 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.aslan.friendsfinder.OnMessagingServiceConnetcedListenner;
 import com.aslan.friendsfinder.utility.Constants;
 import com.aslan.friendsfinder.utility.IntentCreator;
 import com.aslan.friendsfinder.utility.Utility;
 
-public class RemoteMessagingService extends Service implements OnMessagingServiceConnetcedListenner {
+public class RemoteMessagingService extends Service implements ServiceConnection {
     private static final String TAG = "RemoteMessagingService";
 
     private Messenger receiver;
     private Messenger sender;
-    private boolean senderIsBinded;
+    private Intent intent;
 
-    private ServiceConnection messengerServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d("RemoteService", "onServiceConnected");
-            Log.d("RemoteService", name.toString());
-            Log.d("RemoteService", service.toString());
-            sender = new Messenger(service);
-            senderIsBinded = true;
-            RemoteMessagingService.this.onServiceConnected();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.d("RemoteService", "onServiceDisconnected");
-            Log.d("RemoteService", name.toString());
-            sender = null;
-            senderIsBinded = false;
-        }
-    };
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -54,54 +34,62 @@ public class RemoteMessagingService extends Service implements OnMessagingServic
     @Override
     public void onCreate() {
         super.onCreate();
-//        Intent mIntent = new Intent();
-//        mIntent.setAction(Constants.CONTRA_PLUGIN_ACTION_NAME); //TODO change the actual action name logical
-//        mIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), mIntent); //solution for failure above android 5.0
-//        bindService(mIntent, messengerServiceConnection, BIND_AUTO_CREATE);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                switch (bundle.getString(Constants.BUNDLE_TYPE)) {
-                    case Constants.Type.NEARBY_FRIENDS:
-                        getNearbyFriends();
-                        break;
-                }
-            }
+            this.intent = intent;
+
+            Intent bindingIntent = new Intent();
+            bindingIntent.setAction(Constants.CONTRA_PLUGIN_ACTION_NAME); //TODO change the actual action name logical
+            bindingIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), bindingIntent); //solution for failure above android 5.0
+            bindService(bindingIntent, this, BIND_AUTO_CREATE);
         }
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void getNearbyFriends() {
-        Intent mIntent = new Intent();
-        mIntent.setAction(Constants.CONTRA_PLUGIN_ACTION_NAME); //TODO change the actual action name logical
-        mIntent = IntentCreator.createExplicitFromImplicitIntent(getApplicationContext(), mIntent); //solution for failure above android 5.0
-        bindService(mIntent, messengerServiceConnection, BIND_AUTO_CREATE);
+    @Override
+    public void onDestroy() {
+        unbindService(this);
+        super.onDestroy();
     }
 
-    @Override
-    public void onServiceConnected() {
+    public void getNearbyFriends() {
+        Log.i(TAG, "Sending message");
         Message msg = Message.obtain(null, Constants.MessagePassingCommands.GET_NEARBY_FRIENDS);
-
         msg.replyTo = new Messenger(new IncomingMessageHandler());
-        Log.i(TAG, "Sending message: " + msg);
         try {
-            if (senderIsBinded) {
-                sender.send(msg);
-            } else {
-                Log.d("remote", "sender is not bind");
-//                bindService(mIntent, messengerServiceConnection, BIND_AUTO_CREATE);
-//                sender.send(msg);
-            }
+            sender.send(msg);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        Log.i(TAG, "Service is connected.");
+        sender = new Messenger(service);
+
+        // Extract the information
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            switch (bundle.getString(Constants.BUNDLE_TYPE)) {
+                case Constants.Type.NEARBY_FRIENDS:
+                    getNearbyFriends();
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        Log.i(TAG, "Service is disconnected.");
+        sender = null;
+    }
+
 
     private class IncomingMessageHandler extends Handler {
 
