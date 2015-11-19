@@ -19,9 +19,12 @@ import com.aslan.friendsfinder.utility.IntentCreator;
 import com.aslan.friendsfinder.utility.Utility;
 
 public class RemoteMessagingService extends Service implements OnMessagingServiceConnetcedListenner {
+    private static final String TAG = "RemoteMessagingService";
+
     private Messenger receiver;
     private Messenger sender;
     private boolean senderIsBinded;
+
     private ServiceConnection messengerServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -59,13 +62,14 @@ public class RemoteMessagingService extends Service implements OnMessagingServic
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            switch (bundle.getString(Constants.BUNDLE_TYPE)) {
-                case Constants.Type.NEARBY_FRIENDS:
-                    getNearbyFriends();
-                    break;
+        if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                switch (bundle.getString(Constants.BUNDLE_TYPE)) {
+                    case Constants.Type.NEARBY_FRIENDS:
+                        getNearbyFriends();
+                        break;
+                }
             }
         }
         return super.onStartCommand(intent, flags, startId);
@@ -80,8 +84,10 @@ public class RemoteMessagingService extends Service implements OnMessagingServic
 
     @Override
     public void onServiceConnected() {
-        Message msg = Message.obtain(null, Constants.MessagePassingCommands.GET_NEARBY_FRIENDS, 0, 0);
+        Message msg = Message.obtain(null, Constants.MessagePassingCommands.GET_NEARBY_FRIENDS);
+
         msg.replyTo = new Messenger(new IncomingMessageHandler());
+        Log.i(TAG, "Sending message: " + msg);
         try {
             if (senderIsBinded) {
                 sender.send(msg);
@@ -101,8 +107,9 @@ public class RemoteMessagingService extends Service implements OnMessagingServic
 
         @Override
         public void handleMessage(Message msg) {
+            Log.i(TAG, msg.toString());
             // TODO Auto-generated method stub
-            super.handleMessage(msg);
+            //super.handleMessage(msg);
             switch (msg.what) {
                 case Constants.MessagePassingCommands.NEARBY_FRIENDS_RECEIVED:
                     Bundle bundle = msg.getData();
