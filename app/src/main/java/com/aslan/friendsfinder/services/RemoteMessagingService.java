@@ -51,7 +51,6 @@ public class RemoteMessagingService extends Service implements ServiceConnection
 
     @Override
     public void onDestroy() {
-        unbindService(this);
         super.onDestroy();
     }
 
